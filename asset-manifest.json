@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/React-Journal-App/static/css/main.0b098568.css",
-    "main.js": "/React-Journal-App/static/js/main.784bfd20.js",
+    "main.css": "/React-Journal-App/static/css/main.d0c3eabd.css",
+    "main.js": "/React-Journal-App/static/js/main.c430eae7.js",
     "index.html": "/React-Journal-App/index.html",
-    "main.0b098568.css.map": "/React-Journal-App/static/css/main.0b098568.css.map",
-    "main.784bfd20.js.map": "/React-Journal-App/static/js/main.784bfd20.js.map"
+    "static/media/loader.svg": "/React-Journal-App/static/media/loader.fd72181951808d30cbe38338779a62e4.svg",
+    "main.d0c3eabd.css.map": "/React-Journal-App/static/css/main.d0c3eabd.css.map",
+    "main.c430eae7.js.map": "/React-Journal-App/static/js/main.c430eae7.js.map"
   },
   "entrypoints": [
-    "static/css/main.0b098568.css",
-    "static/js/main.784bfd20.js"
+    "static/css/main.d0c3eabd.css",
+    "static/js/main.c430eae7.js"
   ]
 }
