@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import { ReactComponent as Logo } from '../assets/loaders/loader.svg';
+import { Switch, Redirect, HashRouter } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 
@@ -10,6 +11,7 @@ import { PublicRoute } from './PublicRoute';
 
 import { JournalScreen } from '../components/journal/JournalScreen';
 import { login } from '../actions/auth';
+import { startLoadingNotes } from '../actions/notes';
 
 export const AppRouter = () => {
 
@@ -25,8 +27,10 @@ export const AppRouter = () => {
         onAuthStateChanged(auth, (user) => {
             
             if( user?.uid ) {
-                dispatch( login( user.uid, user.displayName ) );
+                dispatch( login( user.uid, user.displayName, user.photoURL ) );
                 setIsLoggedIn( true );
+                dispatch( startLoadingNotes( user.uid ) );
+
             } else {
                 setIsLoggedIn( false );
             }
@@ -39,12 +43,15 @@ export const AppRouter = () => {
 
     if( checking ) {
         return (
-            <h1>Espere..</h1>
+            <div className='journal__loader'>
+                <h1>Loading..</h1>
+                <Logo />
+            </div>
         )
     }
     
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div>
                 <Switch>
 
@@ -64,6 +71,6 @@ export const AppRouter = () => {
                     
                 </Switch>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     )
 }

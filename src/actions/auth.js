@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, si
 import { googleAuthProvider } from "../firebase/firebase-config";
 import { types } from "../types/types";
 import { startLoading, finishLoading } from "./ui";
+import { noteLogout } from './notes';
 
 export const startLoginEmailPassword = ( email, password ) => {
     return ( dispatch ) => {
@@ -50,16 +51,17 @@ export const startGoogleLogin = () => {
 
         signInWithPopup(auth, googleAuthProvider)
             .then(({ user }) => {
-                dispatch( login(user.uid, user.displayName) )
+                dispatch( login(user.uid, user.displayName, user.photoURL) )
             });
     };
 };
 
-export const login = (uid, displayName) => ({
+export const login = (uid, displayName, photoURL = "") => ({
     type: types.login,
     payload: {
         uid,
-        displayName
+        displayName,
+        photoURL
     }
 });
 
@@ -70,6 +72,7 @@ export const startLogout = () => {
         await signOut(auth);
 
         dispatch( logout() );
+        dispatch( noteLogout() );
     }
 };
 
