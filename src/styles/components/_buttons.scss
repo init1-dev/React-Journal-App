@@ -6,6 +6,11 @@
     cursor: pointer;
     font-size: 12px;
     padding: 7px 10px 7px 10px;
+    margin-left: 5px;
+
+    box-shadow: 0.1rem 0.1rem 0.1rem black;
+    transition: all 0.5s;
+    border-radius: 10px;
 
     transition: color .3s ease;
 
@@ -14,9 +19,34 @@
     }
 
     &:hover {
-        color: darken($color: white, $amount: 20);
+        color: darken($color: white, $amount: 10);
+        background-color: rgba($color: grey, $alpha: 0.2);
+        border-radius: 15px;
+
+        transform: translateY(-0.05rem);
+        box-shadow: 0.2rem 0.2rem 0.2rem black;
     }
     
+}
+
+.btn-del {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 7px 10px 7px 10px;
+
+    transition: color .3s ease;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        color: darken($color: white, $amount: 10);
+        background-color: rgba($color: grey, $alpha: 0.2);
+    }
 }
 
 .btn-primary {
@@ -33,13 +63,14 @@
 }
 
 .btn-danger {
-    background-color: red;
+    background-color: grey;
+    color: white;
 
     transition: background-color .3s ease;
 
     &:hover {
         color: white;
-        background-color: darken($color: red, $amount: 10);
+        background-color: red;
     }
 }
 

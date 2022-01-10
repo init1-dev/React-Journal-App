@@ -16,7 +16,8 @@ export const startNewNote = () => {
         const newNote = {
             title: '',
             body: '',
-            date: new Date().getTime()
+            date: new Date().getTime(),
+            lastSave: ''
         }
 
         const docRef = await addDoc( collection(db, `${uid}/journal/notes`), newNote );
@@ -32,6 +33,10 @@ export const activeNote = ( id, note ) => ({
         id,
         ...note
     }
+});
+
+export const closeNote = () => ({
+    type: types.notesClose
 });
 
 export const addNewNote = ( id, note ) => ({
@@ -62,12 +67,15 @@ export const startSaveNote = ( note ) => {
             delete note.url
         }
 
+        const lastSave = new Date().getTime();
         const noteToFirestore = { ...note };
+        noteToFirestore.lastSave = lastSave;
         delete noteToFirestore.id;
 
         await updateDoc( doc(db, `${ uid }/journal/notes/${ note.id }`), noteToFirestore );
         
         dispatch( refreshNote( note.id, noteToFirestore ) );
+        dispatch( activeNote( note.id, noteToFirestore ) );
         Swal.fire({ text: 'Saved', title: note.title, icon: 'success', showConfirmButton: false, timer: 1500 })
     }
 };
@@ -84,18 +92,23 @@ export const refreshNote = ( id, note ) => ({
 });
 
 export const startUploading = ( file ) => {
-    return async( dispatch, getState ) => {
+    return ( dispatch, getState ) => {
         
         const { active:activeNote } = getState().notes;
 
         Swal.fire({ title: 'Uploading..', text: 'Please wait..', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
         
-        const fileUrl = await fileUpload( file );
-        activeNote.url = fileUrl;
+        fileUpload( file )
+            .then( fileUrl => {
+                activeNote.url = fileUrl;
+        
+                dispatch( startSaveNote( activeNote ) );
+                Swal.close();
+            })
+            .catch( err => {
+                Swal.fire('Error', err.error.message, 'error');
+            })
 
-        dispatch( startSaveNote( activeNote ) );
-
-        Swal.close();
     }
 };
 

@@ -1,24 +1,29 @@
 import React from 'react';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { activeNote } from '../../actions/notes';
 
-export const JournalEntry = ({ id, date, title, body, url }) => {
+export const JournalEntry = ( note ) => {
 
     // console.log('journal entry render');
 
-    // console.log(id, date, title, body, url);
+    const { id, date, title, body, url, lastSave } = note;
+    const { active } = useSelector(state => state.notes);
     const noteDate = moment( date );
     const dispatch = useDispatch();
 
     const handleEntryClick = () => {
-        dispatch( activeNote( id, { title, body, date, url } ) );
+        if( !note || note?.id === active?.id ) {
+            return
+        }
+
+        dispatch( activeNote( id, { title, body, date, url, lastSave } ) );
     }
     
     return (
         <div 
-            className='journal__entry pointer'
+            className='journal__entry pointer animate__animated animate__fadeIn'
             onClick={ handleEntryClick }
         >
 

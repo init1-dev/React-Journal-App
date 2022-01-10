@@ -1,13 +1,22 @@
+import moment from 'moment';
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { startSaveNote, startUploading } from '../../actions/notes';
+import { closeNote, startSaveNote, startUploading } from '../../actions/notes';
 
 export const NotesAppBar = () => {
+
+    /* 
+        TODO:
+        - Cambiar fecha de nota estática por la real con la librería Date
+        - Si la nota tiene una imagen, al modificar el texto y guardar, se elimina la imagen
+        - Agregar un botón para cerrar la nota y setear el active a null
+    */
 
     const dispatch = useDispatch();
     const { active } = useSelector( state => state.notes );
     const inputArchivo = useRef(null);
+    const noteDate = moment( active.lastSave || active.date );
 
     const handleUploadImg = () => {
         inputArchivo.current.click();
@@ -25,9 +34,13 @@ export const NotesAppBar = () => {
         dispatch( startSaveNote( active ) );
     };
 
+    const handleCloseNote = () => {
+        dispatch( closeNote() );
+    }
+
     return (
         <div className='notes__appbar'>
-            <span>24 de Junio de 2021</span>
+            <span className='journal__text-shadow'>Updated: { noteDate.format("L HH:mm:ss") }</span>
 
             <input 
                 ref={ inputArchivo }
@@ -39,17 +52,24 @@ export const NotesAppBar = () => {
 
             <div>
                 <button 
-                    className='btn'
+                    className='btn journal__text-shadow'
                     onClick={ handleUploadImg }
                 >
-                    Picture
+                    Upload Img <i className='fas fa-upload'></i>
                 </button>
 
                 <button 
-                    className='btn'
+                    className='btn journal__text-shadow'
                     onClick={ handleSave }
                 >
-                    Save
+                    Save <i className='fas fa-save'></i>
+                </button>
+
+                <button 
+                    className='btn journal__text-shadow'
+                    onClick={ handleCloseNote }
+                >
+                    Close <i className='fas fa-times-circle'></i>
                 </button>
             </div>
             

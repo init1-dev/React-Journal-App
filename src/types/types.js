@@ -12,6 +12,7 @@ export const types = {
 
     notesAddNew: '[Notes] New note created',
     notesActive: '[Notes] Set active note',
+    notesClose: '[Notes] Note closed',
     notesLoad: '[Notes] Notes loaded',
     notesUpdated: '[Notes] Updated note',
     notesFileUrl: '[Notes] Updated image url',

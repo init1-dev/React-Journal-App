@@ -8,12 +8,15 @@ export const JournalEntries = () => {
     // console.log('journal entries render');
 
     const { notes } = useSelector( state => state.notes );
+    const sortedNotes = notes.sort( ( a, b ) => {
+        return b.date - a.date;
+    });
 
     return (
         <div className='journal__entries'>
 
             {
-                notes.map( note => (
+                sortedNotes.map( note => (
                     <JournalEntry
                         key={ note.id } 
                         { ...note }

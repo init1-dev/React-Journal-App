@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { JournalEntries } from './JournalEntries';
 import { startLogout } from '../../actions/auth';
-import { startNewNote } from '../../actions/notes';
+import { startLoadingNotes, startNewNote } from '../../actions/notes';
 
 export const SideBar = () => {
 
     const dispatch = useDispatch();
-    const { name, image } = useSelector( state => state.auth );
+    const { name, image, uid } = useSelector( state => state.auth );
     
     const handleLogout = () => {
         dispatch( startLogout() );
@@ -16,6 +16,10 @@ export const SideBar = () => {
 
     const handleAddNewNote = () => {
         dispatch( startNewNote() );
+    }
+
+    const handleRefreshNotes = () => {
+        dispatch( startLoadingNotes( uid ) )
     }
 
     return (
@@ -26,28 +30,34 @@ export const SideBar = () => {
                     {
                         image 
                             ? <img className='journal__profileimg' src={ image } alt="profile" />
-                            : <i className='far fa-moon'></i> 
+                            : <i className='journal__profileimg far fa-user'></i> 
                     }
                     <span> { name } </span>
                 </h3>
 
-                <button 
-                    className='btn'
-                    onClick={ handleLogout }
-                >
-                    Logout
-                </button>
+                <div className='journal__button-container'>
+                    <button 
+                        className='btn'
+                        onClick={ handleAddNewNote }
+                    >
+                        <i className='fas fa-plus'></i>
+                    </button>
+                    
+                    <button 
+                        className='btn'
+                        onClick={ handleRefreshNotes }
+                    >
+                        <i className='fas fa-redo-alt'></i> 
+                    </button>
 
-            </div>
+                    <button 
+                        className='btn'
+                        onClick={ handleLogout }
+                    >
+                        Logout
+                    </button>
+                </div>
 
-            <div 
-                className='journal__new-entry'
-                onClick={ handleAddNewNote }
-            >
-                <i className='far fa-calendar-plus fa-5x'></i>
-                <p className='mt-5'>
-                    New entry
-                </p>
             </div>
 
             <JournalEntries />
