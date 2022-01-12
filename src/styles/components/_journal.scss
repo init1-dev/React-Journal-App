@@ -104,6 +104,8 @@
 
 .journal__entry-body {
     padding: 14px;
+    max-width: 200px;
+    overflow: auto;
 }
 
 .journal__entry-title {

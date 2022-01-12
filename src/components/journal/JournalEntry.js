@@ -40,11 +40,19 @@ export const JournalEntry = ( note ) => {
             
             <div className='journal__entry-body'>
                 <p className='journal__entry-title'>
-                    { title }
+                    { 
+                        title.length > 15
+                            ?  title.substring(0, 15) + ' ...'
+                            : title
+                    }
                 </p>
 
                 <p className='journal__entry-content'>
-                    { body }
+                    { 
+                        body.length > 110 
+                            ? body.substring(0, 110) + ' ...'
+                            : body
+                    }
                 </p>
             </div>
 
