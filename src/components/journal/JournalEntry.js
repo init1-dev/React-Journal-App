@@ -8,7 +8,7 @@ export const JournalEntry = ( note ) => {
 
     // console.log('journal entry render');
 
-    const { id, date, title, body, url, lastSave } = note;
+    const { id, date, title, body, url, lastSave, done } = note;
     const { active } = useSelector(state => state.notes);
     const noteDate = moment( date );
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const JournalEntry = ( note ) => {
             return
         }
 
-        dispatch( activeNote( id, { title, body, date, url, lastSave } ) );
+        dispatch( activeNote( id, { title, body, date, url, lastSave, done } ) );
     }
     
     return (
@@ -48,9 +48,15 @@ export const JournalEntry = ( note ) => {
                 </p>
             </div>
 
-            <div className='journal__entry-date-box'>
-                <span> { noteDate.format('dddd') } </span>
-                <h4> { noteDate.format('Do') } </h4>
+            <div className='journal__entry-box'>
+                {
+                    done &&
+                        <i className='fas fa-check-circle'></i>
+                }
+                <div className='journal__entry-date-box'>
+                    <span> { noteDate.format('dddd') } </span>
+                    <h4> { noteDate.format('Do') } </h4>
+                </div>
             </div>
 
         </div>

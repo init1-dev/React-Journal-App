@@ -17,7 +17,8 @@ export const startNewNote = () => {
             title: '',
             body: '',
             date: new Date().getTime(),
-            lastSave: ''
+            lastSave: '',
+            done: false
         }
 
         const docRef = await addDoc( collection(db, `${uid}/journal/notes`), newNote );
@@ -39,6 +40,15 @@ export const closeNote = () => ({
     type: types.notesClose
 });
 
+export const noteDone = ( note ) => {
+    return async( dispatch, getState ) => {
+
+        note.done = !note.done;
+        
+        dispatch( startSaveNote( note, true ) );
+    }
+};
+
 export const addNewNote = ( id, note ) => ({
     type: types.notesAddNew,
     payload: {
@@ -58,7 +68,7 @@ export const setNotes = ( notes ) => ({
     payload: notes
 });
 
-export const startSaveNote = ( note ) => {
+export const startSaveNote = ( note, done = null ) => {
     return async( dispatch, getState ) => {
 
         const { uid } = getState().auth;
@@ -76,7 +86,10 @@ export const startSaveNote = ( note ) => {
         
         dispatch( refreshNote( note.id, noteToFirestore ) );
         dispatch( activeNote( note.id, noteToFirestore ) );
-        Swal.fire({ text: 'Saved', title: note.title, icon: 'success', showConfirmButton: false, timer: 1500 })
+        
+        if( done === null ) {
+            Swal.fire({ text: 'Saved', title: note.title, icon: 'success', showConfirmButton: false, timer: 1500 })
+        }
     }
 };
 

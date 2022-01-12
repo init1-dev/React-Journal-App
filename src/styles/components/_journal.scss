@@ -115,6 +115,12 @@
     font-size: 10px;
 }
 
+.journal__entry-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .journal__entry-date-box {
     align-items: center;
     display: flex;
@@ -129,4 +135,14 @@
 
 .journal__text-shadow {
     text-shadow: 1px 1px black;
+}
+
+.journal__entry-category-text {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.journal__entry-category-inner-text {
+    text-align: center;
 }

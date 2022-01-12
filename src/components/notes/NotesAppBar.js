@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { closeNote, startSaveNote, startUploading } from '../../actions/notes';
+import { closeNote, noteDone, startSaveNote, startUploading } from '../../actions/notes';
 
 export const NotesAppBar = () => {
 
@@ -36,7 +36,11 @@ export const NotesAppBar = () => {
 
     const handleCloseNote = () => {
         dispatch( closeNote() );
-    }
+    };
+
+    const handleMarkDone = () => {
+        dispatch( noteDone( active ) );
+    };
 
     return (
         <div className='notes__appbar'>
@@ -51,6 +55,13 @@ export const NotesAppBar = () => {
             />
 
             <div>
+                <button 
+                    className='btn journal__text-shadow'
+                    onClick={ handleMarkDone }
+                >
+                    Done <i className='fas fa-check-circle'></i>
+                </button>
+
                 <button 
                     className='btn journal__text-shadow'
                     onClick={ handleUploadImg }
